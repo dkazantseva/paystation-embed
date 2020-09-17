@@ -62,6 +62,9 @@ module.exports = (function () {
                 that.message.off();
                 that.off('close', handleClose);
             });
+            that.message.on('open-paystation', function (event) {
+                that.triggerEvent('get-user-info', event.detail);
+            });
         };
 
         switch (options.target) {

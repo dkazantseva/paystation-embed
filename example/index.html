@@ -25,7 +25,7 @@
 
     <script>
         var options = {
-            access_token: 'vTIEQ8LIBQxipQoBLoNV3M3ttBOpBcWL'
+            access_token: '4sp0UIw9p68hWV4fw71YAXiV32xXp7Ur'
         };
         var s = document.createElement('script');
         s.type = "text/javascript";
@@ -47,8 +47,16 @@
             XPayStationWidget.on(XPayStationWidget.eventTypes.STATUS, function () {
                 console.log('status event', arguments);
             });
-            XPayStationWidget.on([XPayStationWidget.eventTypes.STATUS_INVOICE, XPayStationWidget.eventTypes.STATUS_DELIVERING, XPayStationWidget.eventTypes.STATUS_DONE, XPayStationWidget.eventTypes.STATUS_TROUBLED].join(' '), function () {
+            XPayStationWidget.on([
+                XPayStationWidget.eventTypes.STATUS_INVOICE,
+                XPayStationWidget.eventTypes.STATUS_DELIVERING,
+                XPayStationWidget.eventTypes.STATUS_DONE,
+                XPayStationWidget.eventTypes.STATUS_TROUBLED
+            ].join(' '), function () {
                 console.log('split status event', arguments);
+            });
+            XPayStationWidget.on(XPayStationWidget.eventTypes.GET_USER_INFO, function (event) {
+                console.log('get user info', arguments, event.detail.user_country);
             });
             XPayStationWidget.init(options);
         }, false);

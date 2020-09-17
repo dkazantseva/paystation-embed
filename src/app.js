@@ -33,7 +33,8 @@ module.exports = (function () {
         STATUS_INVOICE: 'status-invoice',
         STATUS_DELIVERING: 'status-delivering',
         STATUS_TROUBLED: 'status-troubled',
-        STATUS_DONE: 'status-done'
+        STATUS_DONE: 'status-done',
+        GET_USER_INFO: 'get-user-info'
     };
 
     var DEFAULT_CONFIG = {
@@ -101,6 +102,16 @@ module.exports = (function () {
             event.initEvent(eventName, true, false);
             document.dispatchEvent(event);
         }).bind(this));
+    };
+
+    App.prototype.triggerCustomEvent = function (eventName, data) {
+        try {
+            var event = new CustomEvent(eventName, {detail: data}); // Not working in IE
+        } catch(e) {
+            var event = document.createEvent('CustomEvent');
+            event.initCustomEvent(eventName, true, true, data);
+        }
+        document.dispatchEvent(event);
     };
 
     /**
@@ -171,6 +182,13 @@ module.exports = (function () {
             triggerSplitStatus(statusData);
         }
 
+        function handleUserInfo(event) {
+            var userCountry = {
+                user_country: event.detail.user_country
+            };
+            that.triggerCustomEvent(App.eventTypes.GET_USER_INFO, userCountry);
+        }
+
         this.postMessage = null;
         if ((new Device).isMobile()) {
             var childWindow = new ChildWindow;
@@ -188,9 +206,11 @@ module.exports = (function () {
                 that.triggerEvent(App.eventTypes.CLOSE);
                 that.triggerEvent(App.eventTypes.CLOSE_WINDOW);
                 childWindow.off('status', handleStatus);
+                childWindow.off('get-user-info', handleUserInfo);
                 childWindow.off('close', handleClose);
             });
             childWindow.on('status', handleStatus);
+            childWindow.on('get-user-info', handleUserInfo);
             childWindow.open(url, this.config.childWindow);
         } else {
             var lightBox = new LightBox;
@@ -208,9 +228,11 @@ module.exports = (function () {
                 that.triggerEvent(App.eventTypes.CLOSE);
                 that.triggerEvent(App.eventTypes.CLOSE_LIGHTBOX);
                 lightBox.off('status', handleStatus);
+                lightBox.off('get-user-info', handleUserInfo);
                 lightBox.off('close', handleClose);
             });
             lightBox.on('status', handleStatus);
+            lightBox.on('get-user-info', handleUserInfo);
             lightBox.openFrame(url, this.config.lightbox);
         }
     };

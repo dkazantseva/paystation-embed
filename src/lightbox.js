@@ -321,6 +321,9 @@ module.exports = (function () {
         this.message.on('status', (function (event) {
             this.triggerEvent('status', event.detail);
         }).bind(this));
+        this.message.on('open-paystation', (function (event) {
+            this.triggerEvent('get-user-info', event.detail);
+        }).bind(this));
 
         // Resize
         window.addEventListener(handleResizeEventName, lightBoxResize);

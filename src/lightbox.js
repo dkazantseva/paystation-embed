@@ -322,7 +322,7 @@ module.exports = (function () {
             this.triggerEvent('status', event.detail);
         }).bind(this));
         this.message.on('open-paystation', (function (event) {
-            this.triggerEvent('get-user-info', event.detail);
+            this.triggerEvent('get-user-locale', event.detail);
         }).bind(this));
 
         // Resize

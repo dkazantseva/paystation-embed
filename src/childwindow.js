@@ -63,7 +63,7 @@ module.exports = (function () {
                 that.off('close', handleClose);
             });
             that.message.on('open-paystation', function (event) {
-                that.triggerEvent('get-user-info', event.detail);
+                that.triggerEvent('get-user-locale', event.detail);
             });
         };
 

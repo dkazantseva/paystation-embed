@@ -34,7 +34,7 @@ module.exports = (function () {
         STATUS_DELIVERING: 'status-delivering',
         STATUS_TROUBLED: 'status-troubled',
         STATUS_DONE: 'status-done',
-        GET_USER_INFO: 'get-user-info'
+        GET_USER_LOCALE: 'get-user-locale'
     };
 
     var DEFAULT_CONFIG = {
@@ -182,11 +182,11 @@ module.exports = (function () {
             triggerSplitStatus(statusData);
         }
 
-        function handleUserInfo(event) {
+        function handleUserLocale(event) {
             var userCountry = {
                 user_country: event.detail.user_country
             };
-            that.triggerCustomEvent(App.eventTypes.GET_USER_INFO, userCountry);
+            that.triggerCustomEvent(App.eventTypes.GET_USER_LOCALE, userCountry);
         }
 
         this.postMessage = null;
@@ -206,11 +206,11 @@ module.exports = (function () {
                 that.triggerEvent(App.eventTypes.CLOSE);
                 that.triggerEvent(App.eventTypes.CLOSE_WINDOW);
                 childWindow.off('status', handleStatus);
-                childWindow.off('get-user-info', handleUserInfo);
+                childWindow.off('get-user-locale', handleUserLocale);
                 childWindow.off('close', handleClose);
             });
             childWindow.on('status', handleStatus);
-            childWindow.on('get-user-info', handleUserInfo);
+            childWindow.on('get-user-locale', handleUserLocale);
             childWindow.open(url, this.config.childWindow);
         } else {
             var lightBox = new LightBox;
@@ -228,11 +228,11 @@ module.exports = (function () {
                 that.triggerEvent(App.eventTypes.CLOSE);
                 that.triggerEvent(App.eventTypes.CLOSE_LIGHTBOX);
                 lightBox.off('status', handleStatus);
-                lightBox.off('get-user-info', handleUserInfo);
+                lightBox.off('get-user-locale', handleUserLocale);
                 lightBox.off('close', handleClose);
             });
             lightBox.on('status', handleStatus);
-            lightBox.on('get-user-info', handleUserInfo);
+            lightBox.on('get-user-locale', handleUserLocale);
             lightBox.openFrame(url, this.config.lightbox);
         }
     };

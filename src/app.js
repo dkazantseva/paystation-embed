@@ -45,7 +45,7 @@ module.exports = (function () {
         childWindow: {},
         host: 'secure.xsolla.com'
     };
-    var SANDBOX_PAYSTATION_URL = 'https://sandbox-secure.xsolla.com/paystation2/?';
+            var SANDBOX_PAYSTATION_URL = 'https://sandbox-secure.xsolla.com/paystation2/?';
     var EVENT_NAMESPACE = '.xpaystation-widget';
     var ATTR_PREFIX = 'data-xpaystation-widget-open';
 
@@ -206,11 +206,11 @@ module.exports = (function () {
                 that.triggerEvent(App.eventTypes.CLOSE);
                 that.triggerEvent(App.eventTypes.CLOSE_WINDOW);
                 childWindow.off('status', handleStatus);
-                childWindow.off('get-user-locale', handleUserLocale);
+                childWindow.off(App.eventTypes.GET_USER_LOCALE, handleUserLocale);
                 childWindow.off('close', handleClose);
             });
             childWindow.on('status', handleStatus);
-            childWindow.on('get-user-locale', handleUserLocale);
+            childWindow.on(App.eventTypes.GET_USER_LOCALE, handleUserLocale);
             childWindow.open(url, this.config.childWindow);
         } else {
             var lightBox = new LightBox;
@@ -228,11 +228,11 @@ module.exports = (function () {
                 that.triggerEvent(App.eventTypes.CLOSE);
                 that.triggerEvent(App.eventTypes.CLOSE_LIGHTBOX);
                 lightBox.off('status', handleStatus);
-                lightBox.off('get-user-locale', handleUserLocale);
+                lightBox.off(App.eventTypes.GET_USER_LOCALE, handleUserLocale);
                 lightBox.off('close', handleClose);
             });
             lightBox.on('status', handleStatus);
-            lightBox.on('get-user-locale', handleUserLocale);
+            lightBox.on(App.eventTypes.GET_USER_LOCALE, handleUserLocale);
             lightBox.openFrame(url, this.config.lightbox);
         }
     };

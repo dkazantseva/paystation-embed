@@ -321,7 +321,7 @@ module.exports = (function () {
         this.message.on('status', (function (event) {
             this.triggerEvent('status', event.detail);
         }).bind(this));
-        this.message.on('open-paystation', (function (event) {
+        this.message.on('get-user-locale', (function (event) {
             this.triggerEvent('get-user-locale', event.detail);
         }).bind(this));
 
